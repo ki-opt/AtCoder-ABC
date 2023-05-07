@@ -6,6 +6,6 @@
 		"deque": "cpp",
 		"string": "cpp",
 		"vector": "cpp",
-		"algorithm": "cpp"
+		"ostream": "cpp"
 	}
 }
