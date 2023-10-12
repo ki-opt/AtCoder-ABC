@@ -1,0 +1,7 @@
+cd C:\\Users\\rtkdm\\OneDrive\\github\\AtCoder\\ABC
+git add ABC
+git commit -m "comment"
+git remote add AtCoder https://github.com/ki-opt/AtCoder-AHC.git # if first
+git push AtCoder master
+
+通常はadd->commit->push
