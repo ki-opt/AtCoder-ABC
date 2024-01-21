@@ -4,34 +4,13 @@
    "version": "2.0.0",
    "tasks": [
 		{
-			"type": "shell",
-            "label": "C/C++: g++ build active file",
-            "command": "g++",
-            "args": [
-                "-g",
-                "${file}",
-                "-std=c++17",
-                "-o",
-                "${fileDirname}/a.out"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-			}
-			/*
 			"label": "C/C++: g++ build active file",
 			"type": "shell",
 			"command": "g++",//"/usr/bin/g++",
 			"args": [
 				"-g",
 				"-O0",
-				"-std=c++14",
+				"-std=c++2a",
 				"src/src.cpp",
 				"-o",
 				"a.exe"
@@ -45,7 +24,7 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}*/
+			}
 		},
 		/*
 		{
@@ -79,6 +58,24 @@
 		},
 		{
 			"type": "shell",
+			"label": "all do oj test",
+			"command": "oj",
+			"args": [
+				"t",
+				"--ignore-spaces",
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"dependsOn": [
+				"C/C++: g++ build active file",
+				"download test cases"
+			]
+		},
+		{
+			"type": "shell",
 			"label": "do oj test",
 			"command": "oj",
 			"args": [
@@ -92,7 +89,6 @@
 			"problemMatcher": [],
 			"dependsOn": [
 				"C/C++: g++ build active file",
-				"download test case"
 			]
 		}
 	],

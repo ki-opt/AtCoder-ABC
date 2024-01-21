@@ -16,25 +16,25 @@ using namespace std;
 #define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	ll N, K;
+	int N, K;
 	cin >> N >> K;
 
 	ll ans = 0;
-	repp(a,1,N+1) {
-		for (int z = 1; z * K <= 2 * N; z++) {
-			
+	ll tmp = 0;
+	for (int i = 1; i <= N; i++) {
+		if (i % K == 0) tmp++;
+	}
+	ans += (ll)pow(tmp,3);
+
+	if (K % 2 == 0) {
+		tmp = 0;
+		for (int i = 1; i <= N; i++) {
+			if (i % K == K / 2) tmp++;
 		}
-		/*
-		repp(b,K-a,N+1)
-		ll b = K - a;
-		ll c = K - b;
-		if (b <= 0 || c <= 0) break;
-		if (b + c == 0 && !(a + b == K && b + c == K && c + a == K)) continue;
-		if ((K % (b + c)) == 0) {
-			ans++;	
-		}
-		*/
+		ans += (ll)pow(tmp,3);
 	}
 	cout << ans << endl;
+
+
 	return 0;
 }

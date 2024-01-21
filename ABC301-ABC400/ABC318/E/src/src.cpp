@@ -16,32 +16,47 @@ using namespace std;
 #define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	int N;
+	ll N;
 	cin >> N;
-	vector<int> A(N);
-	vector<vector<int>> val(N+1,vector<int>());
+	vector<ll> A(N);
+	vector<vector<ll>> a(N);
 	rep(i,N) {
 		cin >> A[i];
-		val[A[i]].push_back(i);
+		A[i]--;
+		a[A[i]].push_back(i);
 	}
-	
-	int ans = 0;
-	repp(i,1,N+1) {
-		rep(j,val[i].size()-1) {
-			if (val[i][j] + 1 == val[i][j+1]) continue;
-			int sum = 0;
-			repp(k,j,val[i].size()-1) {
-				if (k == 0) {
-					ans += val[i][k+1] - val[i][j] - 1;
-				} else {
-					ans += val[i][k+1] - val[i][j] - 1 - sum;
-				}
-				sum++;
-			}			
+
+	ll ans = 0;
+	rep(i,N) {
+		if (a[i].size() <= 1) continue;
+		if (a[i].size() == 2) ans += a[i][1] - a[i][0] - 1;
+		rep(j,a[i].size()-1) {
+			ans += 
 		}
+
+		cerr << "un" << endl;
 	}
 	
+	/*
+	rep(i,N) {
+		if (a[i].size() <= 1) continue;
+		
+		vector<ll> tmp(a[i].size()-1,0);
+		tmp[0] = a[i][1] - a[i][0] - 2;
+		ll total = tmp[0];
+		repp(j,1,a[i].size()-1) {
+			tmp[j] = (a[i][j+1] - a[i][0] - 2);
+			total += tmp[j];
+		}
+		
+		reverse(tmp.begin(),tmp.end());
+		ans += tmp[0];
+		repp(j,1,a[i].size()-1) {
+			ans += tmp[j-1] - tmp[j];
+		}
+		//if (i == 10) getchar();
+	}*/
 	cout << ans << endl;
-	
+
 	return 0;
 }

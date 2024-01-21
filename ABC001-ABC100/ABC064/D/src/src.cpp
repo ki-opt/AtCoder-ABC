@@ -17,88 +17,33 @@ using namespace std;
 
 int main() {
 	int N;
-	cin >> N;
 	string S;
-	cin >> S;
-
-	vector<char> ans;
+	cin >> N >> S;
+	int cnt = 0, pre = 0;
 	rep(i,N) {
-		int left = 0, right = 0;
-		while (S[i] == '(') {
-			left++;
-			i++;
-		}		
-		while (S[i] == ')') {
-			right++;
-			i++;
-		}
-
-		if (left < right) {
-			rep(i,right+right-left-1) {
-				ans.push_back('(');
-			}
-			rep(i,right) {
-				ans.push_back(')');
-			}
-		} else if (left > right) {
-			rep(i,left) {
-				ans.push_back('(');
-			}
-			rep(i,left) {
-				ans.push_back(')');
+		if (S[i] == '(') {
+			cnt++;
+		} else if (S[i] == ')') {
+			cnt--;
+			if (cnt < 0) {
+				pre++;
+				cnt = 0;
 			}
 		}
-		i--;
 	}
+	string ans;
+	rep(i,pre) ans += '(';
+	rep(i,N) ans += S[i];
 	
-			/*while (left < right) {
-				right--;
-			}*/
-
-	/*
-	int index = 0;
-	while(index < N) {
-		left = 0; right = 0;
-		while(S[index] != ')' && index < N) {
-			left++;
-			index++;
-		}
-
-		while(right != left && index < N) {
-			right++;
-			index++;
-		}
-
-		/*
-		if (left < right) {
-			rep(i,right) {
-				ans.push_back('(');
-			}
-			rep(i,right) {
-				ans.push_back(')');
-			}
-		} else if (left > right) {
-			rep(i,left) {
-				ans.push_back('(');
-			}
-			rep(i,left) {
-				ans.push_back(')');
-			}
-		}//
-		//getchar();
-	}*/
-
+	cnt = 0;
 	rep(i,ans.size()) {
-		cout << ans[i];
+		if (ans[i] == '(') {
+			cnt++;
+		} else if (ans[i] == ')') {
+			cnt--;
+		}
 	}
-	cout << endl;
-	
-	/*rep(i,N) {
-		if (S[i] == '(') left++;
-		else if (S[i] == ')') right++;
-	}*/
-
-
-
+	rep(i,cnt) ans += ')';
+	cout << ans << endl;
 	return 0;
 }

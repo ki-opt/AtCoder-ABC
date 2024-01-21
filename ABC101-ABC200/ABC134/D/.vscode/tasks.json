@@ -10,7 +10,7 @@
 			"args": [
 				"-g",
 				"-O0",
-				"-std=c++14",
+				"-std=c++2a",
 				"src/src.cpp",
 				"-o",
 				"a.exe"
@@ -26,8 +26,9 @@
 				"isDefault": true
 			}
 		},
+		/*
 		{
-			"label": "g++ compile",
+			"label": "compile for debug",
 			"type": "shell",
 			"command": "g++",     // g++
 			"args": [
@@ -43,6 +44,7 @@
 				 "isDefault": true
 			}
 	  	},
+		*/
 		{
 			"label": "download test cases",
 			"type": "process",
@@ -56,10 +58,11 @@
 		},
 		{
 			"type": "shell",
-			"label": "do oj test",
+			"label": "all do oj test",
 			"command": "oj",
 			"args": [
-				"t"
+				"t",
+				"--ignore-spaces",
 			],
 			"group": {
 				"kind": "test",
@@ -68,7 +71,24 @@
 			"problemMatcher": [],
 			"dependsOn": [
 				"C/C++: g++ build active file",
-				"download test case"
+				"download test cases"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "do oj test",
+			"command": "oj",
+			"args": [
+				"t",
+				"--ignore-spaces",
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"dependsOn": [
+				"C/C++: g++ build active file",
 			]
 		}
 	],

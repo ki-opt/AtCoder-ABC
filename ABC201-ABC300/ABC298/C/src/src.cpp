@@ -1,48 +1,83 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <cmath>
+#include <climits>
+#include <string>
 #include <queue>
 
+using ull=unsigned long long;
+using ll=long long;
 using namespace std;
 
-#define TEISU 2*10*10*10*10*10+1
+#define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
+#define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
 	int N, Q;
 	cin >> N >> Q;
-	
-	vector<priority_queue<int, vector<int>, greater<int>>> que_for_query2(N+1);
-	vector<priority_queue<int, vector<int>, greater<int>>> que_for_query3(TEISU);
+	vector<vector<int>> query(Q,vector<int>(3));
+	rep(q,Q) {
+		cin >> query[q][0];
+		if (query[q][0] == 1) cin >> query[q][1] >> query[q][2];
+		else cin >> query[q][1];
+	}
 
-	for (int iter = 0; iter < Q; iter++) {
-		int i, j;
-		int query_1;
-		cin >> query_1;
-		if (query_1 == 1) {
-			cin >> i >> j;
-			que_for_query2[j].push(i);
-			que_for_query3[i].push(j);
-		} else if (query_1 == 2) {
-			cin >> i;
-			priority_queue<int, vector<int>, greater<int>> copy_que = que_for_query2[i];
-			while (copy_que.size() != 0) {
-				cout << copy_que.top() << " ";
-				copy_que.pop();
-			}
+	vector<vector<int>> box(N+1), card(200001);
+	rep(q,Q) {
+		if (query[q][0] == 1) {
+			int i = query[q][1], j = query[q][2];
+			box[j].push_back(i);
+			card[i].push_back(j);
+		} else if (query[q][0] == 2) {
+			int i = query[q][1];
+			sort(box[i].begin(),box[i].end());
+			rep(j,box[i].size()) cout << box[i][j] << " ";
 			cout << endl;
-		} else if (query_1 == 3) {
-			cin >> i;
-			priority_queue<int, vector<int>, greater<int>> copy_que = que_for_query3[i];
-			vector<int> out(TEISU,0);
-			while (copy_que.size() != 0) {
-				int index = copy_que.top();
-				copy_que.pop();
-				if (out[index] == 0) {
-					cout << index << " ";
-					out[index] = 1;
-				}
+		} else if (query[q][0] == 3) {
+			int i = query[q][1];
+			sort(card[i].begin(),card[i].end());
+			card[i].erase(unique(card[i].begin(),card[i].end()),card[i].end());
+			vector<bool> check(200001,false);
+			rep(j,card[i].size()) {
+				if (check[card[i][j]] == false) {
+					check[card[i][j]] = true;
+					cout << card[i][j] << " ";
+				} 
 			}
 			cout << endl;
 		}
 	}
+
+	/*
+	vector<priority_queue<int, vector<int>, greater<int>>> hako(N+1), kazu(200001);
+	rep(num,Q) {
+		int q = query[num][0];
+		if (q == 1) {
+			int i = query[num][1], j = query[num][2];
+			hako[j].push(i);
+			kazu[i].push(j);
+		} else if (q == 2) {
+			int i = query[num][1];
+			priority_queue<int, vector<int>, greater<int>> tmp = hako[i];
+			while(!tmp.empty()) { cout << tmp.top() << " "; tmp.pop(); }
+			cout << endl;
+		} else {
+			int i = query[num][1];
+			vector<bool> check(N+1,false);
+			priority_queue<int, vector<int>, greater<int>> tmp = kazu[i];
+			while(!tmp.empty()) { 
+				if (!check[tmp.top()]) {
+					cout << tmp.top() << " ";
+					check[tmp.top()] = true;
+				}
+				tmp.pop();
+			}
+			cout << endl;
+		}
+	}
+	*/
 	return 0;
 }

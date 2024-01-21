@@ -1,27 +1,47 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <cmath>
+#include <climits>
+#include <string>
+#include <queue>
 
+using ull=unsigned long long;
+using ll=long long;
 using namespace std;
 
-#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
+#define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	int N;
+	ll N;
 	cin >> N;
-	vector<double> v(N);
-	rep(i,N) cin >> v[i];
+	vector<ll> A(N);
+	rep(i,N) cin >> A[i];
+	sort(A.begin(),A.end());
 
-	sort(v.begin(),v.end());
-	rep(i,N-1) {
-		double ans = (v[0] + v[1]) / 2.0;
-		v.erase(v.begin());
-		v.erase(v.begin());
-		v.push_back(ans);
-		sort(v.begin(),v.end());
+	int ans = A[0];
+	repp(i,1,N) {
+		if (A[i] % ans != 0) {
+			ll tmp = ans;
+			ans = A[i] % ans; //- tmp * ans;
+			A[i] = tmp;
+			i--;
+		}
+		/*
+		if (A[i+1] % A[i] == 0) {
+			A[i+1] = 0;
+			swap(A[i],A[i+1]);
+		} else {
+			int tmp = A[i+1] / A[i];
+			A[i+1] -= tmp * A[i];
+			swap(A[i],A[i+1]);
+		}
+		*/
 	}
-
-	cout << v[0] << endl;
+	cout << ans << endl;
 
 	return 0;
 }

@@ -1,48 +1,52 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <cmath>
+#include <climits>
+#include <string>
 #include <queue>
 
+using ull=unsigned long long;
+using ll=long long;
 using namespace std;
 
-#define TEISU 2*10*10*10*10*10+1
+#define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
+#define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	int N, Q;
-	cin >> N >> Q;
-	
-	vector<priority_queue<int, vector<int>, greater<int>>> que_for_query2(N+1);
-	vector<priority_queue<int, vector<int>, greater<int>>> que_for_query3(TEISU);
-
-	for (int iter = 0; iter < Q; iter++) {
-		int i, j;
-		int query_1;
-		cin >> query_1;
-		if (query_1 == 1) {
-			cin >> i >> j;
-			que_for_query2[j].push(i);
-			que_for_query3[i].push(j);
-		} else if (query_1 == 2) {
-			cin >> i;
-			priority_queue<int, vector<int>, greater<int>> copy_que = que_for_query2[i];
-			while (copy_que.size() != 0) {
-				cout << copy_que.top() << " ";
-				copy_que.pop();
-			}
-			cout << endl;
-		} else if (query_1 == 3) {
-			cin >> i;
-			priority_queue<int, vector<int>, greater<int>> copy_que = que_for_query3[i];
-			vector<int> out(TEISU,0);
-			while (copy_que.size() != 0) {
-				int index = copy_que.top();
-				copy_que.pop();
-				if (out[index] == 0) {
-					cout << index << " ";
-					out[index] = 1;
+	int H, W;
+	cin >> H >> W;
+	vector<vector<char>> C(H,vector<char>(W));
+	rep(i,H) rep(j,W) cin >> C[i][j];
+	int N = min(H,W);
+	vector<int> S(N+1,0);
+	vector<vector<bool>> used(H,vector<bool>(W,false));
+	repp(i,1,H-1) {
+		repp(j,1,W-1) {
+			if (C[i][j] == '.' && used[i][j]) continue;
+			int k = 1;
+			while(i - k >= 0 && i + k < H && j - k >= 0 && j + k < W) {
+				if (C[i-k][j-k] == '#' && C[i-k][j+k] == '#' &&
+						C[i+k][j-k] == '#' && C[i+k][j+k] == '#' &&
+						!used[i-k][j-k] && !used[i-k][j+k] &&
+						!used[i+k][j-k] && !used[i+k][j+k] ) {
+					k++;
+				} else {
+					break;
 				}
 			}
-			cout << endl;
+			if (k == 1) continue;
+			used[i][j] = true;
+			repp(t,1,k) {
+				used[i-t][j-t] = true; used[i-t][j+t] = true; 
+				used[i+t][j-t] = true; used[i+t][j+t] = true;
+			}
+			S[k-1]++;
 		}
 	}
+
+	repp(i,1,N+1) cout << S[i] << " ";
 	return 0;
 }

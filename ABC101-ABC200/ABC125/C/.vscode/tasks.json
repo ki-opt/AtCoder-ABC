@@ -13,7 +13,9 @@
 				"-std=c++2a",
 				"src/src.cpp",
 				"-o",
-				"a.exe"
+				"a.exe",
+				"-I",
+				"C:\\Users\\rtkdm\\OneDrive\\github\\AtCoder\\ac-library"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"

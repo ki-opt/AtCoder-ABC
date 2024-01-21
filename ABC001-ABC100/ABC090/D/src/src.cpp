@@ -24,9 +24,9 @@ int main() {
 	}
 
 	ll ans = 0;
-	for (int b=K+1; b <= N; b++) {
-			
+	for (int b = K+1; b <= N; b++) {
+				
 	}
-	cout << ans++;
+	cout << ans << endl;
 	return 0;
 }

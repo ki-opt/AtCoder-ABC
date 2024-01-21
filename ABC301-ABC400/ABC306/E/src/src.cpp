@@ -7,79 +7,106 @@
 #include <climits>
 #include <string>
 #include <queue>
-#include <set>
 
+using ull=unsigned long long;
+using ll=long long;
 using namespace std;
 
 #define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
-#define repp(iter, limit, init) for (int iter = (int)init; iter < (int)(limit); iter++)
+#define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	long int N, K, Q;
+	int N, K, Q;
 	cin >> N >> K >> Q;
-	vector<long int> X(Q), Y(Q);
-	rep(i,Q) cin >> X[i] >> Y[i];
+	vector<ll> ans;
 
-	long int ans = 0;
-	multiset<long int> asc_set, dec_set;
-	vector<long int> A(N,-1);
-	rep(i,Q) {
-		if (A[X[i]-1] == -1) {
-			if (asc_set.size() < K) {
-				asc_set.insert(Y[i]);
-				ans += Y[i];
-			} else if (asc_set.size() >= K) {
-				if (Y[i] > *asc_set.begin()) {
-					long int tmp = *asc_set.begin();
-					ans -= tmp;
-					ans += Y[i];
-					// Yの追加
-					asc_set.insert(Y[i]);
-					// asc_setからの削除/追加
-					auto it = asc_set.find(tmp);
-					if (it != asc_set.end()) asc_set.erase(it);
-					dec_set.insert(tmp);
-				} else if (Y[i] <= *asc_set.begin()) {
-					dec_set.insert(Y[i]);
+	ll total = 0;
+	vector<ll> A(N,-1);
+	map<ll,ll> mp;
+	priority_queue<ll> next_pque;
+	rep(q,Q) {
+		int X, Y;
+		cin >> X >> Y;
+		X--;
+
+
+		A[X] = Y;
+		ans.push_back(total);
+		/*
+		if (A[X] == -1) {
+			if (mp.size() < K) {
+				total += Y;
+				mp[Y]++;		
+			} else if (mp.size() >= K) {
+				if (Y > mp.begin()->first) {
+					total += Y - mp.begin()->first;
+					next_pque.push(mp)
+					if (mp[mp.begin()->first] == 1) mp.erase(mp.begin()->first);
+					else mp[mp.begin()->first]--;
+					mp[Y]++;
+				} else if (Y == mp.begin()) {
+
 				}
-			}
-		} else if (A[X[i]-1] != -1) {
-			auto it = asc_set.find(A[X[i]-1]);
-			if (it != asc_set.end()) {
-				ans -= A[X[i]-1];
-				asc_set.erase(it);
-				if (Y[i] >= *asc_set.begin()) {
-					asc_set.insert(Y[i]);
-					ans += Y[i];
-				} else if (Y[i] < *asc_set.begin()) {
-					if (Y[i] >= *dec_set.rbegin()) {
-						asc_set.insert(Y[i]);
-						ans += Y[i];
+				/*
+				if (next_pque.empty()) {
+					if (Y > mp.begin()->first) {
+						total += Y - mp.begin()->first;
+						if (mp[mp.begin()->first] == 1) mp.erase(mp.begin()->first);
+						else mp[mp.begin()->first]--;
+						mp[Y]++;
 					} else {
-						asc_set.insert(*dec_set.rbegin());
-						ans += *dec_set.rbegin();
-						auto it_2 = dec_set.find(*dec_set.rbegin());
-						if (it_2 != dec_set.end()) dec_set.erase(it_2);
+						next_pque.push(Y);
+					}
+				} else if (!next_pque.empty()) {
+					if (Y > next_pque.top() && ) {
+						total += Y;
+						mp[Y]++;
+					} else {
+						total
 					}
 				}
-			} else if (it == asc_set.end()) {
-				auto it_3 = dec_set.find(A[X[i]-1]);
-				if (it_3 != dec_set.end()) dec_set.erase(it_3);
-				if (Y[i] > *asc_set.begin()) {
-					long int tmp = *asc_set.begin();
-					ans -= tmp;
-					ans += Y[i];
-					asc_set.insert(Y[i]);
-					auto it_2 = asc_set.find(tmp);
-					if (it_2 != asc_set.end()) asc_set.erase(it_2);
-					dec_set.insert(tmp);
+			}
+		} else {
+
+		}*/
+
+		/*
+		// 存在する場合
+		if (mp.count(A[X]) > 0 && mp[A[X]] > 0) {
+			if (mp.count(A[X]) <= 1) mp.erase(A[X]);
+			else mp[A[X]]--;
+			if (next_pque.empty() || Y > A[X]) {
+				total += Y - A[X];	
+				mp[Y]++;
+			} else if (Y <= next_pque.top()) {
+				total += next_pque.top() - A[X];
+				mp[next_pque.top()]++;
+				next_pque.pop();
+				next_pque.push(Y);
+			}
+		// 存在しない場合
+		} else {
+			if (mp.size() >= K) {
+				if (Y > mp.begin()->first) {
+					total += Y - mp.begin()->first;
+					if (mp.count(A[X]) == 1) mp.erase(mp.begin()->first);
+					else mp[mp.begin()->first]--;
+					mp[Y]++;
 				} else {
-					dec_set.insert(Y[i]);
+					next_pque.push(Y);
 				}
+			} else {
+				mp[Y]++;
+				total += Y;
 			}
 		}
-		cout << ans << endl;
-		A[X[i]-1] = Y[i];
+		*/
 	}
+
+	rep(i,ans.size()) {
+		cout << ans[i] << endl;
+	}
+
+
 	return 0;
 }

@@ -7,41 +7,47 @@
 #include <climits>
 #include <string>
 #include <queue>
-#include <bits/stdc++.h>
-#include <atcoder/modint>
 
 using ull=unsigned long long;
 using ll=long long;
 using namespace std;
-using namespace atcoder;
-using mint = modint998244353;
 
 #define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
 #define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
-int main() {
-	int Q;
-	cin >> Q;
-	vector<int> query(Q);
-	deque<int> S;
-	S.push_back(1);
-	mint ans = 1;
-	rep(i,Q) {
-		cin >> query[i];
-		if (query[i] == 1) {
-			int tmp;
-			cin >> tmp;
-			S.push_back(tmp);
-			ans = ans * 10 + tmp;
-		} else if (query[i] == 2) {
-			ans -= mint(10).pow(S.size()-1) * S.front();
-			S.pop_front();
-		} else if (query[i] == 3) {
-			cout << ans.val() << endl;
-		}
+void chmin(ll &a, ll &b) {
+	if (a < b) {
+		ll tmp = a;
+		a = b;
+		b = tmp;
 	}
+}
 
-	
+int main() {
+	ll A, B;
+	cin >> A >> B;
+	chmin(A,B);
+	ll ans = 0;
+	while (A != B) {
+		if (A % B == 0) {
+			ans += A / B;
+			break;
+		}
+		ll tmp = A / B;
+		A -= B * tmp;
+		ans += tmp;
+		chmin(A,B);
+		if (A == 1 && B == 0) break;
 
+	}
+	/*
+	while (A != B) {
+		if (A > B) A -= B;
+		else B -= A;
+		ans++;
+	}
+	*/
+	if (ans == 0) cout << 0 << endl;
+	else cout << ans - 1 << endl;
 	return 0;
 }

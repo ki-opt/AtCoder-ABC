@@ -1,55 +1,46 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <cmath>
+#include <climits>
 #include <string>
-#include <bitset>
+#include <queue>
 
+using ull=unsigned long long;
+using ll=long long;
 using namespace std;
 
-void check(int &H, int &W, vector<vector<int>> &A, vector<vector<int>> &B) {
-	for (int i = 0; i < H; i++) {
-		for (int j = 0; j < W; j++) {
-			if (A[i][j] != B[i][j]) goto done;
-		}
-	}
-	cout << "Yes" << endl;
-	exit;
-done:
-}
-
-void rotation(int &H, int &W, vector<vector<int>> &A, vector<vector<int>> &B) {
-
-}
+#define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
+#define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
 	int H, W;
 	cin >> H >> W;
-	vector<vector<int>> A, B;
-	
-	for (int i = 0; i < H; i++) {
-		string wrk;
-		cin >> wrk;
-		for (int j = 0; j < W; j++) {
-			if (wrk[j] == '#') A[i][j] = 0;
-			else A[i][j] = 1;
+	vector<vector<char>> A(H,vector<char>(W)), B(H,vector<char>(W));
+	rep(i,H) rep(j,W) cin >> A[i][j];
+	rep(i,H) rep(j,W) cin >> B[i][j];
+
+	rep(s,H) {
+		vector<vector<char>> tmp = A;
+		rep(i,H) rep(j,W) {
+			if (i + 1 < H) A[i][j] = tmp[i+1][j];
+			else A[i][j] = tmp[0][j];
+		}
+		rep(t,W) {
+			vector<vector<char>> tmp_2 = A;
+			rep(i,H) rep(j,W) {
+				if (j + 1 < W) A[i][j] = tmp_2[i][j+1];
+				else A[i][j] = tmp_2[i][0];
+			}
+			bool isFound = true;
+			rep(i,H) rep(j,W) {
+				if (A[i][j] != B[i][j]) { isFound = false; break; }
+			}
+			if (isFound) { cout << "Yes" << endl; return 0; }
 		}
 	}
-	for (int i = 0; i < H; i++) {
-		string wrk;
-		cin >> wrk;
-		for (int j = 0; j < W; j++) {
-			if (wrk[j] == '#') B[i][j] = 0;
-			else B[i][j] = 1;			
-		}
-	}
-
-	//check(H, W, A, B);
-
-	for (int j = 0; j < W; j++) {
-		
-		for (int i = 0; i < H; i++) {
-
-		}
-	}
-
+	cout << "No" << endl;
 	return 0;
 }

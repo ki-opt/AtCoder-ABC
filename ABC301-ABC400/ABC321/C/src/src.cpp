@@ -16,39 +16,23 @@ using namespace std;
 #define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
 int main() {
-	//cout << (10<<10) << endl;
-	
-	int K;
+	ll K;
 	cin >> K;
-	
-	/*
-	if (K <= 10) {
-		cout << K << endl;
-		return 0;
-	}
-	vector<vector<vector<int>>> hyo(10,vector<vector<int>>(10));
-	for (int i = 0; i < 10; i++) hyo[i][1].push_back(1);
-	for (int num = 1; num < 10; num++) {
-		for (int keta = 2; keta < 10; keta++) {
-			if (num == 1) hyo[num][keta].push_back()		
-			hyo[num][keta].push_back(10*keta);
+
+	vector<ll> ans;
+	for (int i = 2; i < (1<<10); i++) {
+		ll val = 0, tmp = 1;
+		for (int j = 1; j < 10; j++) {
+			if (((i >> j) & 0x0001) == 1) {
+				val += tmp * (ll)j;
+				tmp *= 10;
+			}
 		}
+		if (i & 0x0001) val *= 10;
+		ans.push_back(val);
 	}
-
-	int keta = 2;
-	while(1) {
-		for(int i = 1; i < 10; i++) {
-			
-		}
-	}
-
-	/*
-	int tmp = 10;
-	int keta = 2;
-	while(1) {
-
-	}
-	*/
+	sort(ans.begin(),ans.end());
+	cout << ans[K-1] << endl;
 
 	return 0;
 }
