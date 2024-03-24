@@ -1,6 +1,10 @@
 
-#include "bits/stdc++.h"
 
+/*
+	素数の列挙
+	計算量O(NloglogN)
+*/
+#include "bits/stdc++.h"
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
 vector<int> Eratosthenes( const int N ) {
 	vector<bool> is_prime( N + 1 );

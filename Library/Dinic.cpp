@@ -1,3 +1,8 @@
+// 最大流問題（二部マッチング）を解くアルゴリズム
+// 計算量O(N^2 E), ただし実用的にはもっと早い
+//https://qiita.com/0xkei10/items/807ff3c78857fd3017b1
+//参考=>https://atcoder.jp/contests/abc091/submissions/48604460
+
 class Dinic {
 public:
 	struct Edge { int to, cap, rev; };
@@ -68,6 +73,8 @@ void func() {
 	int V, E;
 	cin >> V >> E;
 	vector<int> u(E), v(E), c(E);
+	// sourceから各ノードへ, 各ノードからsinkへ考慮していないので注意
+	// 実際には+2する必要がある
 	Dinic dinic(V);
 	rep(i,E) {
 		cin >> u[i] >> v[i] >> c[i];
