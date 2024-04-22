@@ -8,43 +8,55 @@
 #include <string>
 #include <queue>
 #include <stack>
+#include <set>
+#include <math.h>
+#include <float.h>
+#include <numeric>
 #include "atcoder/all"
+
+using namespace std;
+using namespace atcoder;
 
 using ull=unsigned long long;
 using ll=long long;
-using namespace std;
+//using mint = modint998244353;
+//using mint = modint1000000007;
 
 #define rep(iter, limit) for (int iter = 0; iter < (int)(limit); iter++)
 #define repp(iter, init, limit) for (int iter = (int)init; iter < (int)(limit); iter++)
 
-int main() {
-	ll K;
-	cin >> K;
-	if (K < 50) {
-		if (K % 2 == 0) {
-			cout << 2 << endl;
-			cout << (K + 2) / 2 << " " << (K + 2) / 2 << endl;
-		} else {
-			cout << 2 << endl;
-			cout << (K + 3) / 2 << " " << K / 2 << endl;
+void test(vector<ll> ans, ll K) {
+	ll cnt = 0;
+	while (*max_element(ans.begin(),ans.end()) >= 50) { 
+		auto itr = max_element(ans.begin(),ans.end());
+		int index = distance(ans.begin(),itr);
+		rep(i,ans.size()) {
+			if (i == index) ans[i] -= 50;
+			else ans[i]++;
 		}
-		return 0;
+		cnt++;		 
+	}
+	cerr << cnt << endl;
+}
+
+int main() {
+	ll N = 50;
+	ll K; cin >> K;
+	vector<ll> ans(N,0);
+	if (K < N) {
+		rep(i,K) ans[i] = N;
+	} else {
+		rep(i,N) ans[i] = N - 1 + K / N;
+		rep(i,N) {
+			if (i < K%N) ans[i]++;
+			else ans[i] -= K%N;
+		}
 	}
 
-	ll N = 50;
-	vector<ll> ans(N,49);
-	ll total = K - (N - 1);
-	rep(i,N) {
-		if (49 + total > (ll)pow(10,16)) {
-			ans[i] += (ll)pow(10,16);
-			total -= (ll)pow(10,16);
-		} else {
-			ans[i] += total;
-			break;
-		}
-	}
-	cout << N << endl;
+	//test(ans,K);
+
+	cout << ans.size() << endl;
 	for (auto a : ans) cout << a << " ";
-	cout << endl;
+
 	return 0;
 }
